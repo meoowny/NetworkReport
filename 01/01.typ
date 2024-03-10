@@ -1,24 +1,9 @@
-#import "/model.typ": make-title
+#import "/template.typ": report
 
-#set text(
-  size: 12pt,
-  font: ("STIX Two Text", "Source Han Serif SC")
+#show: report.with(
+  title: "lab01-网络相关进程与服务实验",
+  date: "2024 年 2 月 26 日"
 )
-#set page(numbering: "— 1 —")
-
-#set list(marker: "﹡")
-#set heading(numbering: "一、")
-#let fake_par = {
-  v(-0.6em)
-  box()
-}
-#show heading: it => {
-  it
-  fake_par
-}
-#set par(justify: true, first-line-indent: 2em, leading: 1em)
-
-#make-title(title: "lab01-网络相关进程与服务实验", date: "2024 年 2 月 26 日")
 
 = 实验目的
 
