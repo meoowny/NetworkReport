@@ -1,9 +1,9 @@
-#import "/template.typ": report
-
-#show: report.with(
-  title: "lab02-网络端口地址实验",
-  date: "2024 年 2 月 26 日"
-)
+//#import "/template.typ": report
+//
+//#show: report.with(
+//  title: "lab02-网络端口地址实验",
+//  date: "2024 年 2 月 26 日"
+//)
 
 = 实验目的
 
@@ -38,31 +38,31 @@
 
   由于使用了 HTTPS 协议并指定端口号 8080，此时由于服务器没有配置相应的端口监听，因此访问失败。
 
-  #image("02_01.png")
+  #image("./02_01.png")
 
   2. 访问 https://www.tongji.edu.cn:80 ：连接失败
 
   由于使用了 HTTPS 协议但未指定 HTTPS 默认端口的端口号 443，因此未能成功访问。
 
-  #image("02_02.png")
+  #image("./02_02.png")
 
   3. 访问 http://www.tongji.edu.cn:8080 ：连接失败
 
   由于使用了 HTTP 协议并指定端口号 8080，此时由于服务器没有配置相应的端口监听，因此访问失败。
 
-  #image("02_03.png")
+  #image("./02_03.png")
 
   4. 访问 http://www.tongji.edu.cn:80 ：连接成功
 
   由于使用了 HTTP 协议并指定了 HTTP 默认端口的端口号 80，因此可以成功访问。
 
-  #image("02_04.png")
+  #image("./02_04.png")
 
 2. 在 CMD 命令行环境中，使用 `netstat -ano` 命令观察端口状态：
 
 通过该命令，可以查看计算机上当前打开的端口的端口号、协议及连接状态。
 
-#image("02_05.png")
+#image("./02_05.png")
 
 = 分析讨论
 

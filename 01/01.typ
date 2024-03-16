@@ -1,9 +1,9 @@
-#import "/template.typ": report
-
-#show: report.with(
-  title: "lab01-网络相关进程与服务实验",
-  date: "2024 年 2 月 26 日"
-)
+//#import "/template.typ": report
+//
+//#show: report.with(
+//  title: "lab01-网络相关进程与服务实验",
+//  date: "2024 年 2 月 26 日"
+//)
 
 = 实验目的
 
@@ -41,24 +41,24 @@
 
 - 按下 `Ctrl + Alt + Del` 后可以打开任务管理器界面：
 
-#image("01_01.png")
+#image("./01_01.png")
 
 - 使用 `tasklist` 命令列出所有正在运行的进程：
 
-#image("01_02.png")
+#image("./01_02.png")
 
 - 通过 `taskkill` 命令成功结束了部分应用程序的进程。下图中通过 `taskkill /pid 4524` 成功关闭记事本应用：
 
-#image("01_03.png")
+#image("./01_03.png")
 
 - 对于计算器应用程序，使用 `taskkill /pid 9540` 后未能成功关闭，需要使用 `/f` 参数强制终止该进程：
 
-#image("01_05.png")
-#image("01_06.png")
+#image("./01_05.png")
+#image("./01_06.png")
 
 - 通过命令 `services.msc` 可以查看所有的系统服务及其状态：
 
-#image("01_04.png")
+#image("./01_04.png")
 
 = 分析讨论
 

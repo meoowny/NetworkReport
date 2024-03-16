@@ -1,6 +1,6 @@
-#import "/template.typ": report
-
-#show: report.with(title: "lab03-网络线的制作和测试实验", date: "2024 年 3 月 4 日")
+//#import "/template.typ": report
+//
+//#show: report.with(title: "lab03-网络线的制作和测试实验", date: "2024 年 3 月 4 日")
 
 = 实验目的
 
@@ -17,10 +17,10 @@
   #grid(
     columns: (1fr, 1fr),
     align(center)[
-      #image("03_04.png", width: 80%)
+      #image("./03_04.png", width: 80%)
     ],
     align(center)[
-      #image("03_05.png", width: 80%)
+      #image("./03_05.png", width: 80%)
     ],
   )
 
@@ -37,7 +37,7 @@
 + 准备剥线：利用斜口剪下所需的双绞线，然后再利用双绞线剥线刀口将双绞线的外皮除去 2-3 厘米并抽去外套；
 + 拨线：将裸露的双绞线中的橙色对线拨向自己左方，棕色对线拨向右方，绿色对线拨向前方，蓝色对线拨向后方；
 
-  #align(center)[#image("03_01.png", width: 50%)]
+  #align(center)[#image("./03_01.png", width: 50%)]
 
 + 按序号排列好：遵循 EIA/TIA 568A 或 568B 的标准将线排列好，然后排列整齐；
 + 剪断：将裸露出的双绞线用剪刀或斜口钳剪下只剩约 1.4 厘米的长度；
@@ -50,11 +50,11 @@
 
 - 直通线测试：通断仪指示灯按照 1-1 、 2-2 、 3-3 … 8-8 的顺序亮起，直通线制作成功。
 
-#align(center)[#image("03_02.jpg", width: 30%)]
+#align(center)[#image("./03_02.jpg", width: 30%)]
 
 - 交叉线测试：通断仪指示灯按照 1-3 、 2-6 、 3-1 … 8-8 的顺序亮起，交叉线制作成功。
 
-#align(center)[#image("03_03.jpg", width: 30%)]
+#align(center)[#image("./03_03.jpg", width: 30%)]
 
 = 分析讨论
 

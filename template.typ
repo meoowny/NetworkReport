@@ -1,6 +1,6 @@
 // 计划放入家目录下的 typst 包目录中，制成包来使用
 
-#let report(
+#let subreport(
   title: none,
   author: "段子涛",
   position: "济事楼 330",
@@ -8,31 +8,10 @@
   date: none,
   body
 ) = {
-  // 设置报告的元信息
-  set document(author: author, title: title)
-
-  // 设置字体
-  set text(
-    size: 12pt,
-    font: ("STIX Two Text", "Source Han Serif SC")
-  )
-  show raw: set text(
-    font: "Source Han Sans SC"
-  )
-
-  // 配置页面属性
-  set page(numbering: "— 1 —")
-
-  // 配置列表属性
-  set list(marker: "﹡")
-
-  // 配置标题显示样式
-  set heading(numbering: "一、")
-  show heading: it => {
-    it
-    v(-0.6em)
-    box()
-  }
+  // 初始化页面
+  pagebreak(weak: true)
+  counter(page).update(1)
+  counter(heading).update(0)
 
   // 标题
   align(
@@ -72,6 +51,50 @@
   set par(justify: true, first-line-indent: 2em, leading: 1em)
 
   body
+}
+
+#let report(
+  title: none,
+  author: "段子涛",
+  position: "济事楼 330",
+  cooperator: "无",
+  date: none,
+  body
+) = {
+  // 设置报告的元信息
+  set document(author: author, title: title)
+
+  // 设置字体
+  set text(
+    size: 12pt,
+    font: ("STIX Two Text", "Source Han Serif SC")
+  )
+  show raw: set text(
+    font: "Source Han Sans SC"
+  )
+
+  // 配置页面属性
+  set page(numbering: "— 1 —")
+
+  // 配置列表属性
+  set list(marker: "﹡")
+
+  // 配置标题显示样式
+  set heading(numbering: "一、")
+  show heading: it => {
+    it
+    v(-0.6em)
+    box()
+  }
+
+  subreport(
+    title: title,
+    author: author,
+    position: position,
+    cooperator: cooperator,
+    date: date,
+    body,
+  )
 }
 
 // from: https://typst.app/ 的模版

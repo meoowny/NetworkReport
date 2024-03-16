@@ -1,6 +1,6 @@
-#import "/template.typ": report
-
-#show: report.with(title: "lab04-基本网络测试工具及应用工具实验", date: "2024 年 3 月 4 日")
+//#import "/template.typ": report
+//
+//#show: report.with(title: "lab04-基本网络测试工具及应用工具实验", date: "2024 年 3 月 4 日")
 
 = 实验目的
 

@@ -1,6 +1,6 @@
-#import "/template.typ": report
-
-#show: report.with(title: "lab05-主机路由实验", date: "2024 年 3 月 11 日")
+//#import "/template.typ": report
+//
+//#show: report.with(title: "lab05-主机路由实验", date: "2024 年 3 月 11 日")
 
 = 实验目的
 
@@ -48,23 +48,23 @@
 
 + `route PRINT` 命令显示了当前的路由表；
   #figure(
-    image("05_01.png"),
+    image("./05_01.png"),
     caption: [`route PRINT -4` 命令运行结果，仅显示 IPv4 路由表],
   )
   #v(2em)
 + 使用 `route ADD` 后，可以看到新的路由项出现在路由表中；
   #figure(
-    image("05_02_01.png", width: 85%),
+    image("./05_02_01.png", width: 85%),
     caption: [`route ADD 192.168.56.100 MASK 255.255.255.255 192.168.56.1` 添加了一个网关，它到 192.168.56.1 的网络，子网掩码为 255.255.255.255，并通过网关 192.168.56.1],
   )
 + 使用 `route CHANGE` 后，可以看到选定的路由项被修改了；
   #figure(
-    image("05_03_01.png", width: 85%),
+    image("./05_03_01.png", width: 85%),
     caption: [`route CHANGE 192.168.56.100 MASK 255.255.255.255 192.168.56.1 METRIC 2` 修改先前添加的路由项，将其跃点数即 Metric 值更改为了不同的值],
   )
 + 使用 `route DELETE` 后，选定的路由项在路由表中消失。
   #figure(
-    image("05_04_01.png", width: 85%),
+    image("./05_04_01.png", width: 85%),
     caption: [`route DELETE 192.168.56.100` 删除了先前添加的路由项],
   )
 

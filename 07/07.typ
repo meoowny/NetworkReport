@@ -1,6 +1,6 @@
-#import "/template.typ": report
-
-#show: report.with(title: "lab07-异常串口通信收发实验", date: "2024 年 3 月 11 日", cooperator: "")
+//#import "/template.typ": report
+//
+//#show: report.with(title: "lab07-异常串口通信收发实验", date: "2024 年 3 月 11 日", cooperator: "")
 
 = 实验目的
 
@@ -21,7 +21,7 @@
   - 随着设备的不断改进，出现了代替 DB25 的 DB9 接口，现在都把 RS232 接口叫做 DB9。
   - RS232 采用负逻辑电平：-15~-3 表示逻辑 1；+15~+3 表示逻辑 0。电压值通常在 7V 左右。
   #figure(
-    image("07_01.png", width: 50%),
+    image("./07_01.png", width: 50%),
     caption: [RS232 接口],
   )
 
@@ -60,10 +60,10 @@
   #grid(
     columns: (1fr, 1fr),
     align(left)[
-      #image("07_02.png", width: 90%)
+      #image("./07_02.png", width: 90%)
     ],
     align(right)[
-      #image("07_03.png", width: 90%)
+      #image("./07_03.png", width: 90%)
     ],
   )
 
@@ -72,10 +72,10 @@
   #grid(
     columns: (1fr, 1fr),
     align(left)[
-      #image("07_04.png", width: 90%)
+      #image("./07_04.png", width: 90%)
     ],
     align(right)[
-      #image("07_05.png", width: 90%)
+      #image("./07_05.png", width: 90%)
     ],
   )
 
