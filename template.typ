@@ -16,6 +16,9 @@
     size: 12pt,
     font: ("STIX Two Text", "Source Han Serif SC")
   )
+  show raw: set text(
+    font: "Source Han Sans SC"
+  )
 
   // 配置页面属性
   set page(numbering: "— 1 —")
@@ -38,6 +41,14 @@
       *#title*
     ],
   )
+
+  // 图表样式（无用）
+  //show figure.where(
+  //  kind: table
+  //): set figure(supplement: [表格])
+  //show figure.where(
+  //  kind: figure
+  //): set figure(supplement: [图片])
 
   // 报告作者信息
   pad(
