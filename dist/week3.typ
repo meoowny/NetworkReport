@@ -10,7 +10,7 @@
 #include "../05/05.typ"
 
 #show: subreport.with(
-  title: "lab07-异常串口通信收发实验",
+  title: "lab07-异步串口通信收发实验",
   date: date,
   cooperator: ""
 )

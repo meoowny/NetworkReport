@@ -71,7 +71,7 @@
 
   #align(center)[#image("./04_06.png", width: 90%)]
 
-6. `net` 部分实验截图：
+6. `route` 部分实验截图：
 
   #align(center)[#image("./04_07.png", width: 90%)]
 
