@@ -1,5 +1,39 @@
 // 计划放入家目录下的 typst 包目录中，制成包来使用
 
+#let report_config(
+  title: none,
+  author: "段子涛",
+  body,
+) = {
+  // 设置报告的元信息
+  set document(author: author, title: title)
+
+  // 设置字体
+  set text(
+    size: 12pt,
+    font: ("STIX Two Text", "Source Han Serif SC")
+  )
+  show raw: set text(
+    font: "Source Han Sans SC"
+  )
+
+  // 配置页面属性
+  set page(numbering: "— 1 —")
+
+  // 配置列表属性
+  set list(marker: "﹡")
+
+  // 配置标题显示样式
+  set heading(numbering: "一、")
+  show heading: it => {
+    it
+    v(-0.6em)
+    box()
+  }
+
+  body
+}
+
 #let subreport(
   title: none,
   author: "段子涛",
@@ -61,31 +95,10 @@
   date: none,
   body
 ) = {
-  // 设置报告的元信息
-  set document(author: author, title: title)
-
-  // 设置字体
-  set text(
-    size: 12pt,
-    font: ("STIX Two Text", "Source Han Serif SC")
+  show: report_config.with(
+    title: title,
+    author: author,
   )
-  show raw: set text(
-    font: "Source Han Sans SC"
-  )
-
-  // 配置页面属性
-  set page(numbering: "— 1 —")
-
-  // 配置列表属性
-  set list(marker: "﹡")
-
-  // 配置标题显示样式
-  set heading(numbering: "一、")
-  show heading: it => {
-    it
-    v(-0.6em)
-    box()
-  }
 
   subreport(
     title: title,

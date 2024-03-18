@@ -4,7 +4,8 @@
     "files": [
         {
             "title": "lab03-网络线的制作和测试实验",
-            "file": "./03/03.typ"
+            "path": "./03/03.typ",
+            "cooperator": ""
         }
     ]
 }
