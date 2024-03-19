@@ -9,9 +9,31 @@ if args[1] == "c" then
     local info = json.decode(info_text)
     io.close()
 
-    -- TODO: 生成文件
+    local single = function(file, file_info)
+        file:write("#show: subreport.with(\n")
+        file:write("  title: [" .. file_info["title"] .. "],\n")
+        file:write("  date: \"" .. info["date"] .. "\",\n")
+        file:write(")\n\n")
+        file:write("#include \"../" .. file_info["id"] .. "/" .. file_info["id"] .. ".typ\"\n\n")
+    end
 
-    os.execute("typst compile --font-path ./fonts/ --root ./ ./dist/" .. info["source"] .. ".typ")
+    -- TODO: 生成文件
+    local file = io.open("./dist/" .. args[2] .. ".typ", "w")
+    if file == nil then
+        os.exit()
+    end
+
+    file:write("#import \"/template.typ\": *\n\n")
+    file:write("#let date = [" .. info["date"] .. "]\n\n")
+    file:write("#show: report_config.with(title: [" .. args[2].. "])\n\n")
+    for _, v in ipairs(info["files"]) do
+        single(file, v)
+    end
+
+    file:close()
+
+    -- os.execute("typst compile --font-path ./fonts/ --root ./ ./dist/" .. info["source"] .. ".typ")
+    os.execute("typst compile --font-path ./fonts/ --root ./ ./dist/" .. args[2] .. ".typ")
     os.execute("echo Complete")
 elseif args[1] == "g" then
     -- 生成 json
