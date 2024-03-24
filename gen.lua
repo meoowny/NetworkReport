@@ -41,7 +41,7 @@ if args[1] == "c" then
     local target_name = args[2]
 
     -- 获取实验报告信息
-    io.input(target_name .. ".json")
+    io.input("info/" .. target_name .. ".json")
     local info_text = io.read("a")
     local info = json.decode(info_text)
     io.close()
