@@ -17,7 +17,6 @@ if args[1] == "c" then
         file:write("#include \"../" .. file_info["id"] .. "/" .. file_info["id"] .. ".typ\"\n\n")
     end
 
-    -- TODO: 生成文件
     local file = io.open("./dist/" .. args[2] .. ".typ", "w")
     if file == nil then
         os.exit()

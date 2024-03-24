@@ -2,14 +2,13 @@
     "date": "2024 年 3 月 18 日",
     "files": [
         {
-            "title": "lab08-IOS 的基本操作、路由器的基本操作实验",
+            "title": "lab08-IOS 基本操作（路由器的基本操作实验）",
             "path": "./08/08.typ(可选，默认可以只有 id)",
-            "id": "08",
-            "cooperator": ""
+            "id": "08"
         },
         {
-            "title": "VLAN",
-            "id": "07"
+            "title": "VLAN 配置实验",
+            "id": "09"
         }
     ]
 }
