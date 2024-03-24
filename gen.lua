@@ -59,7 +59,7 @@ if args[1] == "c" then
 
     -- 生成目标报告
     local outFile = "2254198_段子涛"
-    file:write("#import \"/template.typ\": *\n\n")
+    file:write("#import \"/template/template.typ\": *\n\n")
     file:write("#let date = [" .. info["date"] .. "]\n\n")
     file:write("#show: report_config.with(title: [" .. target_name.. "])\n\n")
     for _, v in ipairs(info["files"]) do
