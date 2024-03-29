@@ -2,7 +2,7 @@
 -- UTF-8 的编码问题: https://zhuanlan.zhihu.com/p/157815053
 -- TypedLua: https://github.com/teal-language/tl https://zhuanlan.zhihu.com/p/40300705
 local json = require("json")
-local args = {...}
+local args = _G.arg
 local version = "0.0.1"
 
 local info_template_path = "./template/info.json"
