@@ -124,6 +124,8 @@ elseif args[1] == "h" then
     -- help
     print("c <meta file(json)> -> compile")
     print("g <experienment id> -> generate")
+    print("   j <json name> -> json file")
+    print("   r <json name> -> typst file")
     print("h -> Display this help info.")
 else
     print("v" .. version)
