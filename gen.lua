@@ -2,6 +2,7 @@
 -- UTF-8 的编码问题: https://zhuanlan.zhihu.com/p/157815053
 -- TypedLua: https://github.com/teal-language/tl https://zhuanlan.zhihu.com/p/40300705
 local json = require("json")
+local etlua = require("etlua")
 local args = _G.arg
 local version = "0.0.1"
 
@@ -10,11 +11,19 @@ local report_template_path = "./template/single.typ"
 
 -- 单个实验报告的引入函数
 local single = function(file, file_info, date)
-    file:write("#show: subreport.with(\n")
-    file:write("  title: [lab" .. file_info["id"] .. "-" .. file_info["title"] .. "],\n") -- 报告标题命名格式：lab<ID>-<TITLE>
-    file:write("  date: \"" .. date .. "\",\n")
-    file:write(")\n\n")
-    file:write("#include \"../" .. file_info["id"] .. "/" .. file_info["id"] .. ".typ\"\n\n")
+    local template = etlua.compile [[
+#show: subreport.with(
+    title: [lab<%= id %>-<%= title %>],
+    date: "<%= date %>",
+)
+#include "../<%= id %>/<%= id %>.typ"
+
+]]
+    file:write(template({
+        id = file_info["id"],
+        title = file_info["title"],
+        date = date,
+    }))
 end
 
 local existFile = function (filename, mode)
@@ -77,9 +86,18 @@ if args[1] == "c" then
 
     -- 生成目标报告
     local outFile = "2254198_段子涛"
-    file:write("#import \"/template/template.typ\": *\n\n")
-    file:write("#let date = [" .. info["date"] .. "]\n\n")
-    file:write("#show: report_config.with(title: [" .. target_name.. "])\n\n")
+    local infoTemplate = etlua.compile [[
+#import "/template/template.typ": *
+
+#let date = ["<%= date %>"]
+
+#show: report_config.with(title: ["<%= name %>"])
+
+]]
+    file:write(infoTemplate({
+        date = info["date"],
+        name = target_name,
+    }))
     for _, v in ipairs(info["files"]) do
         single(file, v, info["date"])
         outFile = outFile .. "_" .. v["title"]
