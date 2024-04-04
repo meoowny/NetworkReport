@@ -118,6 +118,7 @@ elseif args[1] == "g" then
         -- 检查模版 json 是否还在
         assert(existFile(info_template_path), "Info template file missed.")
         copyFile(info_template_path, target_path)
+        print(os.date("%Y %m %d %H:%M:%S"))
     elseif args[2] == 'r' then
         assert(existFile(report_template_path), "Report template file missed.")
         local target_file = io.open(target_path, "r")
