@@ -1,7 +1,8 @@
 -- https://www.cnblogs.com/xdao/p/lua_file.html
 -- UTF-8 的编码问题: https://zhuanlan.zhihu.com/p/157815053
 -- TypedLua: https://github.com/teal-language/tl https://zhuanlan.zhihu.com/p/40300705
-local json = require("lua/json")
+--local json = require("lua/json")
+local json = vim.json
 local etlua = require("lua/etlua")
 local args = _G.arg
 local version = "0.0.1"
@@ -67,7 +68,7 @@ local checkhealth = function(info)
     return true
 end
 
-if args[1] == "c" then
+if args[1] == "c" or args[1] == "w" then
     -- 编译
     assert(args[2] ~= nil, "Json filename missed.")
     local target_name = args[2]
@@ -107,7 +108,11 @@ if args[1] == "c" then
     file:close()
 
     -- 目标报告生成结束，调用系统指令进行编译
-    os.execute("typst compile --font-path ./fonts/ --root ./ ./dist/" .. target_name .. ".typ")
+    if args[1] == "c" then
+        os.execute("typst compile --font-path ./fonts/ --root ./ ./dist/" .. target_name .. ".typ")
+    elseif args[1] == "w" then
+        os.execute("typst watch --font-path ./fonts/ --root ./ ./dist/" .. target_name .. ".typ --open okular")
+    end
     print("Compile completed")
 elseif args[1] == "g" then
     -- 生成 json 或单报告文件
@@ -142,6 +147,7 @@ elseif args[1] == "g" then
 elseif args[1] == "h" then
     -- help
     print("c <meta file(json)> -> compile")
+    print("w <meta file(json)> -> watch")
     print("g <experienment id> -> generate")
     print("   j <json name> -> json file")
     print("   r <json name> -> typst file")

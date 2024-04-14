@@ -1,4 +1,17 @@
+#set enum(full: true)
+#set table(
+  fill: (x, y) =>
+    if x == 0 or y == 0 {
+      gray.lighten(40%)
+    },
+  align: center + horizon,
+)
+#show table.cell.where(x: 0): strong
+#show table.cell.where(y: 0): strong
+
 = 实验目的
+
+本次实验利用路由器的 NAT 功能，结合访问控制列表，实现具有一定安全保护能力的私网与互联网互通。在这个过程中，我们将了解地址转换原理，理解私有网与互联网互通与互联网接入共享原理，熟练掌握 NAT 的基本技术原理和配置方法，理解 NAT 在解决 IP 地址不足及提供网络隔离的作用。
 
 = 实验原理
 
@@ -70,7 +83,7 @@
     ```
     RB 配置操作类似。
 + 在各路由器上配置静态路由协议，让 PC 间能相互 ping 通：
-  + 在 RA 上使用命令行在全局配置模型下的配置命令如下：
+  + 在 RA 上使用命令行在全局配置模式下的配置命令如下：
     ```bash
     ip route 218.100.3.0 255.255.255.0 serial0/0/0
     ip route 118.18.4.0 255.255.255.0 serial0/0/0
@@ -81,7 +94,7 @@
     ip route 210.120.1.0 255.255.255.0 serial0/0/0
     ```
 + 配置路由器的 NAT 出入口：
-  + 对于 RA 和 RB，在全局配置模型下使用的相关配置命令如下：
+  + 在 RA 和 RB 上使用命令行在全局配置模式下的配置命令如下：
     ```bash
     interface FastEthernet0/0
     ip nat inside
@@ -89,9 +102,78 @@
     ip nat outside
     ```
 + 配置路由器的 NAT 转换：
+  + 在 RA 上使用命令行在全局配置模式下的配置命令如下：
+    ```bash
+    ip nat inside source static 192.168.1.11 210.120.1.11
+    ```
+  + RB 配置操作同 RA，指令为：
+    ```bash
+    ip nat inside source static 172.16.3.33 218.100.3.33
+    ```
 + 观测 NAT 配置情况：
+    ```bash
+    show ip nat translations
+    ```
 
 = 实验现象
 
+#let ack = [#set text(fill: teal.darken(50%));*可以*访问]
+#let nck = [#set text(fill: red.darken(50%));*不可*访问]
+
++ 观察路由器 NAT 的配置结果：#h(500pt)
+
+  #align(center)[#image("./14_09.png", width: 80%)]
+  #align(center)[#image("./14_10.png", width: 80%)]
+
++ 各 PC 间的访问结果：
+
+  #set table.hline(stroke: 1.4pt)
+  #table(
+    columns: (1fr, 1fr, 1fr, 1fr, 1fr),
+    table.header(
+      [], table.vline(), [PC0], [PC1], [PC2], [PC3],
+    ),
+    table.hline(),
+    [`192.168.1.11`], ack, ack, nck, nck,
+    [`210.120.1.11`], nck, nck, ack, ack,
+    [`10.60.2.22`], ack, ack, ack, ack,
+    [`172.16.3.33`], nck, nck, ack, ack,
+    [`218.100.3.33`], ack, ack, nck, nck,
+    [`118.18.4.44`], ack, ack, ack, ack,
+  )
+
+  #grid(
+    columns: (1fr, 1fr),
+    align(center + horizon)[#image("./14_08.png", width: 97%)],
+    align(center + horizon)[#image("./14_07.png", width: 97%)],
+    align(center + horizon)[#image("./14_05.png", width: 97%)],
+    align(center + horizon)[#image("./14_06.png", width: 97%)],
+  )
+
+#pagebreak()
+
 = 分析讨论
+
+- 对 PC 互相访问结果的分析：
+
+  在 NAT 技术下，网络可以分为内部网络和外部网络，默认情况下内部 IP 地址无法被路由到外网，当外部主机发送一个应答到内网时，需要 NAT 路由器查看当前 NAT 转换表，用内网地址替换掉这个外网地址。
+
+  在本次实验中，4 个 PC 的 ip 配置情况如下：
+  #table(
+    columns: (1fr, 1fr, 1fr),
+    table.header(
+      [], table.vline(), [内部 IP], [外部 IP],
+    ),
+    [PC0], [`192.168.1.11`], [`210.120.1.11`],
+    [PC1], [`10.60.2.22`], [],
+    [PC2], [`172.16.3.33`], [`218.100.3.33`],
+    [PC3], [`118.18.4.44`], [],
+  )
+
+  #box()
+  #v(-1em)
+
+  从 PC 间的访问结果可以看出，在同一路由器下，可以访问内网 IP，无法访问公网 IP；在不同路由器下，可以访问公网 IP，无法访问内网 IP。
+
+  借助 NAT 技术，使得私有网络服务器可以同时为内网和外网提供服务，实现了信息服务的共享，在网络设计中更巧妙地处理了内外网设备的地址分配问题，让网络架构更为灵活和可管理。同时，NAT 有选择地对私有网络内的主机地址进行转换，为网络安全提供了一定的控制和保护机制，使得私有网络在互联网环境中能够更好地保护内部资源和数据。
 
