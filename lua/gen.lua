@@ -9,6 +9,21 @@ local version = "0.0.1"
 
 local info_template_path = "./template/info.json"
 local report_template_path = "./template/single.typ"
+local info_template = etlua.compile [[
+{
+    "date": "<%= year %> 年 <%= month %> 月 <%= day %> 日",
+    "files": [
+        {
+            "title": "",
+            "id": ""
+        },
+        {
+            "title": "",
+            "id": ""
+        }
+    ]
+}
+]]
 
 -- 单个实验报告的引入函数
 local single = function(file, file_info, date)

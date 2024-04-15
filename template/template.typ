@@ -11,7 +11,8 @@
   // 设置字体
   set text(
     size: 12pt,
-    font: ("STIX Two Text", "Source Han Serif SC")
+    font: ("STIX Two Text", "Source Han Serif SC"),
+    lang: "zh",
   )
   show raw: set text(
     font: "Source Han Sans SC"
