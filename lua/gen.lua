@@ -53,6 +53,13 @@ local existFile = function (filename, mode)
     end
 end
 
+local writeFile = function(destination, content)
+    local dst, error_info = io.open(destination, "a")
+    assert(dst ~= nil, error_info)
+    dst:write(content)
+    dst:close()
+end
+
 local copyFile = function(source, destination)
     -- 读取源文件内容
     local src, error_info = io.open(source, "r")
@@ -60,10 +67,7 @@ local copyFile = function(source, destination)
     local content = src:read("a")
     src:close()
     -- 写入目标文件
-    local dst, error_info_ = io.open(destination, "a")
-    assert(dst ~= nil, error_info_)
-    dst:write(content)
-    dst:close()
+    writeFile(destination, content)
     return true
 end
 
@@ -137,7 +141,12 @@ elseif args[1] == "g" then
     if args[2] == 'j' then
         -- 检查模版 json 是否还在
         assert(existFile(info_template_path), "Info template file missed.")
-        copyFile(info_template_path, target_path)
+        -- copyFile(info_template_path, target_path)
+        writeFile(target_path, info_template{
+            year = os.date("*t").year,
+            month = os.date("*t").month,
+            day = os.date("*t").day,
+        })
         print(os.date("%Y %m %d %H:%M:%S"))
     elseif args[2] == 'r' then
         assert(existFile(report_template_path), "Report template file missed.")
