@@ -32,7 +32,7 @@ local single = function(file, file_info, date)
     title: [lab<%= id %>-<%= title %>],
     date: "<%= date %>",
 )
-#include "../<%= id %>/<%= id %>.typ"
+#include "../src/<%= id %>.typ"
 
 ]]
     file:write(template({
@@ -159,9 +159,9 @@ elseif args[1] == "g" then
         assert(checkhealth(info), "Broken info file.")
 
         for _, v in ipairs(info["files"]) do
-            local temp_name = "./" .. v["id"] .. "/" .. v["id"] .. ".typ"
+            local temp_name = "./src/" .. v["id"] .. ".typ"
             if not existFile(temp_name) then
-                os.execute("mkdir " .. v["id"])
+                -- os.execute("mkdir " .. v["id"])
                 copyFile(report_template_path, temp_name)
             end
         end
