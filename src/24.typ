@@ -2,7 +2,7 @@
 
 = 实验目的
 
-可以使用 `arp -a` 查看本机 ARP 情况。
+本次实验中，我们将学习理解 ARP（Address Resolution Protocol，地址解析协议）的工作原理，并了解它在网络通信中的作用。通过虚拟实验环境和抓包工具，我们将学习利用工具观测分析 ARP 报文结构与通信过程，并在这个过程中了解 ARP 协议是如何将 IP 地址映射到 MAC 地址的。
 
 = 实验原理
 
@@ -18,7 +18,7 @@
   + ARP 响应：局域网中的每一台主机都会接受并处理这个 ARP 请求报文，然后进行验证，查看接收方 IP 地址是不是自己的地址，只有验证成功的主机才会返回一个 ARP 响应报文，这个响应报文包含接收方的 IP 地址和物理地址。这个报文利用收到的 ARP 请求报文中的请求方物理地址以单播的方式直接发送给 ARP 请求报文的请求方。
 + ARP 报文格式：
   #figure(
-    image("..\assets\24_01.png", width: 80%),
+    image("..\assets\24_01.png", width: 50%),
     caption: [ARP 报文格式],
   ) <fig-24_01>
 + 可以使用 `arp -a` 命令查看本机 ARP 内容，也可以使用 `arp -d` 删除本机的 ARP 内容。
@@ -32,7 +32,7 @@
 
 + 首先规划网络地址及拓扑图：本次实验采用的网络拓扑及地址规划如下图所示：#h(500pt)
   #figure(
-    image("..\assets\24_02.png", width: 80%),
+    image("..\assets\24_02.png", width: 55%),
     caption: [网络拓扑图],
   ) <fig-24_02>
   / Router0: FA 0/0: 192.168.1.1 Mask: 255.255.255.0\ 
@@ -73,30 +73,78 @@
 + 使用 WireShark 抓取本机 ARP 数据包；
 + 查看 ARP 报文字段内容并解读。
 
+#pagebreak()
+
 = 实验现象
 
++ 虚拟实验环境中的 ARP 报文\ 
+  以 PC0->Router0 为例：
   #figure(
-    image("..\assets\24_03.png", width: 80%),
+    image("..\assets\24_03.png", width: 60%),
     caption: [报文内容],
   ) <fig-24_03>
-  #figure(
-    image("..\assets\24_04.png", width: 80%),
-    caption: [报文内容 1],
-  ) <fig-24_04>
-  #figure(
-    image("..\assets\24_05.png", width: 80%),
-    caption: [报文内容 2],
-  ) <fig-24_05>
+  #grid(
+    columns: (1fr, 1fr),
+    align: (center + horizon),
+    figure(
+      image("..\assets\24_04.png", width: 90%),
+      caption: [报文内容 1],
+    ),
+    figure(
+      image("..\assets\24_05.png", width: 90%),
+      caption: [报文内容 2],
+    ),
+  )
+  - OSI 模型分析：
+    - 该报文在 OSI 模型第二层数据链路层；
+    / Ethernet II 源 MAC 地址: 0000.0C28.5440（PC0）；
+    / Ethernet II 目的 MAC 地址: FFFF.FFFF.FFFF（广播地址），表明这是一个广播帧；
+    / ARP 包源 IP 地址: 192.168.1.11（PC0）；
+    / ARP 包目的 IP 地址: 192.168.1.1（Router 左端口），说明主机尝试解析 IP 地址为 192.168.1.1 对应的 MAC 地址。
+  - 输入 PDU 详情：
+    / 硬件类型 HARDWARE TYPE: 0x0001，表示这是一个以太网帧；
+    / 硬件长度 HLEN: 0x06，表示物理地址（MAC 地址）的长度为 6 个字节；
+    / 协议长度 PLEN: 0x04，表示协议地址（IP 地址）的长度为 4 个字节；
+    / 操作码 OPCODE: 0x0001，表示这是一个 ARP 请求报文；
+    / 发送方 MAC 地址 SOURCE MAC: 0000.0C28.5440，即 PC0 的物理地址；
+    / 发送方 IP 地址 SOURCE IP: 192.68.1.11，即 PC0 对应的 IP 地址；
+    / 目标 MAC 地址 TARGET MAC: 0000.0000.0000，由于这是一个 ARP 请求，因此为该值，表示发送方正在查询这个 MAC 地址；
+    / 目标 IP 地址 TARGET IP: 192.168.1.1，即请求 ARP 解析的 IP 地址。
+  - 输出 PDU 详情：
+    / 硬件类型 HARDWARE TYPE: 0x0001，表示这是一个以太网帧；
+    / 硬件长度 HLEN: 0x06，表示物理地址（MAC 地址）的长度为 6 个字节；
+    / 协议长度 PLEN: 0x04，表示协议地址（IP 地址）的长度为 4 个字节；
+    / 操作码 OPCODE: 0x0002，表示这是一个 ARP 响应报文；
+    / 发送方 MAC 地址 SOURCE MAC: 00D0.D3AE.6701，即 Router0 的物理地址；
+    / 发送方 IP 地址 SOURCE IP: 192.68.1.1，即 Router0 对应的 IP 地址；
+    / 目标 MAC 地址 TARGET MAC: 0000.0C28.5440，由于是响应，ARP 所请求设备的 MAC 地址；
+    / 目标 IP 地址 TARGET IP: 192.168.1.11，这里为发起请求的设备。
 
+#pagebreak()
+2. 本机 ARP 内容：
   #figure(
-    image("..\assets\24_06.png", width: 80%),
+    image("..\assets\24_06.png", width: 50%),
     caption: [本机 ARP 内容],
   ) <fig-24_06>
 
++ 分析 WireShark 抓取的 ARP 报文：
   #figure(
-    image("..\assets\24_07.png", width: 80%),
+    image("..\assets\24_07.png", width: 100%),
     caption: [抓取到的 ARP 报文内容],
   ) <fig-24_07>
+  - 对图中 ARP 请求信息的分析如下：
+    / 硬件类型: 1，表示这是一个以太网帧；
+    / 硬件长度: 6，表示物理地址（MAC 地址）的长度为 6 个字节；
+    / 协议长度: 4，表示协议地址（IP 地址）的长度为 4 个字节；
+    / 操作码: 1，表示这是一个 ARP 请求报文；
+    / 发送方 MAC 地址: 9c:54:c2:0d:50:02，即发送方的物理地址；
+    / 发送方 IP 地址: 100.81.255.254，即发送方的 IP 地址；
+    / 目标 MAC 地址: 00:00:00:00:00:00，由于这是一个 ARP 请求，因此为该值，表示发送方正在查询这个 MAC 地址；
+    / 目标 IP 地址: 100.81.191.46，即本机 IP 地址。
 
 = 分析讨论
+
+在本次实验中，我们在虚拟实验环境中模拟了 PC 发送 ARP 请求及路由器处理并返回 ARP 响应报文的过程，在这个过程中我们观察到了 ARP 报文的结构及其通信过程；并通过分析对虚拟实验环境中传输的报文及抓包工具捕获的报文，我们了解了 ARP 协议的工作原理，更加深入地理解了 ARP 协议在网络通信中的重要作用。
+
+实验过程中，如果在一次 `ping` 之后重新 `ping` 的话，PC 不会发送 ARP 请求报文，需要清除 ARP 缓存才可以在模拟模式下访问到 ARP 报文。这是因为只有在以下情况下才会发出 ARP 包：新设备加入网络、ARP 缓存中没有该条目、IP 地址冲突、IP 地址更改、ARP 缓存超时、网络设备重启或连接恢复。在第一次的 `ping` 操作后 PC 中就有了目标 IP 对应的 ARP 缓存，需要清除该缓存 PC 才会重新发出 ARP 包。
 
